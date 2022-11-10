@@ -56,6 +56,9 @@ const FormAddCert = () => {
     return dateFormated;
   }
 
+  const dateAdded = Date.now().toString();
+  console.log(dateAdded);
+
   const addCertificateETH = async () => {
     const contract = await connectToBlockchain();
     const checkAddress = checkManager();
@@ -76,7 +79,7 @@ const FormAddCert = () => {
         setTransactionETH(transaction.hash);
         console.log(transaction.hash);
         const certificatesCollection = collection(db, "certificates");
-        await setDoc(doc(certificatesCollection, stu_id), {
+        await setDoc(doc(certificatesCollection, dateAdded), {
           name: name,
           stu_id: stu_id,
           email: email,
@@ -86,11 +89,10 @@ const FormAddCert = () => {
           term: term,
           transactionETH: transaction.hash,
         });
-
       }
-
     } catch (error) {
       console.log(error);
+      alert('You dont have permission!!!');
     }
   }
   useEffect(() => {

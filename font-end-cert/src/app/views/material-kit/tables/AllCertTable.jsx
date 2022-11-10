@@ -75,7 +75,7 @@ const AllCertTable = () => {
           {certificates
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((subscriber, index) => (
-              <TableRow key={index} >
+              <TableRow  key={index}>
                 <TableCell align="left">{subscriber.stu_id}</TableCell>
                 <TableCell align="center">{subscriber.name}</TableCell>
                 <TableCell align="center">{subscriber.email}</TableCell>

@@ -63,7 +63,7 @@ const FormAddManager = () => {
       });
     } catch (error) {
       console.log(error);
-      alert("You are not a ADMIN!!!");
+      alert('You dont have permission!!!');
     }
       
   }

@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { ethers } from "ethers";
 import abi from '../../utils/Certificates.json';
 import { useEffect } from 'react';
+import { set } from 'lodash';
 // import useAuth from 'app/hooks/useAuth';
 
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
@@ -50,6 +51,7 @@ const JwtLogin = () => {
     const contract = await connectToBlockchain();
     const manager = await contract.checkManager(currentAccount);
     // console.log(manager);
+    setIsFalse(manager);
     return manager;
   };
 
@@ -87,17 +89,20 @@ const JwtLogin = () => {
         if (manager) {
           navigate('/dashboard/default', { replace: true });
         } else {
-          alert("You are not a manager! Please connect to a manager account.");
-          navigate('/session/signin', { replace: true });
+          window.confirm("You are not a manager! Please connect to a manager account."
+          
+          ,window.location.reload());
           setLoading(false);
         }
       }
     } catch (error) {
-      alert("You are not a manager!!!");
     }
   };
+  const [isFalse, setIsFalse] = useState('');
+
   useEffect(() => {
     // connectWallet();
+    console.log(isFalse);
     if (!checkManager()) {
       navigate('/session/signin');
     }
@@ -126,7 +131,7 @@ const JwtLogin = () => {
               </FlexBox>
             </Grid>
             <Grid item xs={12} style={{marginLeft: "20px"}}>
-              {!currentAccount && (
+              {(!currentAccount) && (
                 <FlexBox>
                   <LoadingButton
                     variant="contained"
