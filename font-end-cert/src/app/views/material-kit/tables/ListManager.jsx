@@ -140,7 +140,7 @@ const SimpleTable = () => {
 
   return (
     <Box width="100%" overflow="auto">
-      <StyledTable loading={loading}>
+      <StyledTable >
         <TableHead>
           <TableRow>
             <TableCell align="left">Name</TableCell>
@@ -151,11 +151,11 @@ const SimpleTable = () => {
             <TableCell align="center">Action</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody loading={loading}>
+        <TableBody >
           {mangers
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((subscriber, index) => (
-              <TableRow key={index} loading={loading}>
+              <TableRow key={index} >
                 <TableCell align="left">{subscriber.managerName}</TableCell>
                 <TableCell align="center">{subscriber.manangerEmail}</TableCell>
                 {subscriber.status === "Active" ? (
@@ -176,10 +176,9 @@ const SimpleTable = () => {
                        viewBox="0 0 100 100"
                        media="(max-width: 20em)"
                        style={{ display: 'block', margin: 'left 20, right 0', width: '20em' }}
-                      size="100"
+                      size={100}
                     />
                   </ImageZoom>
-
                 </TableCell>
                 {subscriber.status === "Active" ? (
                   <TableCell align="center">

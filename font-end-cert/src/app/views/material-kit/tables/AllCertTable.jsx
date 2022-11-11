@@ -86,7 +86,7 @@ const AllCertTable = () => {
                 <TableCell align="right">
                   <ImageZoom media="(max-width: 20em)" >
                     <QRCode value={'https://goerli.etherscan.io/tx/' + subscriber.transactionETH}
-                      size="100"
+                      size={100}
                       // width="20em"
                       viewBox="0 0 100 100"
                       media="(max-width: 20em)"

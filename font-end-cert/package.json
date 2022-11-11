@@ -23,6 +23,7 @@
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.19",
+    "medium-zoom": "^1.0.6",
     "merge": "^2.1.1",
     "moment": "^2.29.1",
     "notistack": "^2.0.3",

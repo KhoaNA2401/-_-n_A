@@ -18,6 +18,7 @@ import React from "react";
 import { SimpleCard } from "app/components";
 import QRCode from "react-qr-code";
 import ImageZoom from "react-medium-image-zoom";
+import 'react-medium-image-zoom/dist/styles.css'
 import {
     Card,
     Fab,
@@ -174,11 +175,6 @@ export default function FormFindCert() {
                 fullWidth
                 onChange={(e) => setInputID(e.target.value)}
             />
-
-            {/* <Button disabled={!isEnable} variant="outlined" color="primary" onClick={findByID}>
-                Find Certificate
-            </Button> */}
-
             <Box width="100%" overflow="auto">
                 <StyledTable>
                     <TableHead>
@@ -257,20 +253,21 @@ export default function FormFindCert() {
                                     <p>College: {item.college}</p>
                                     <p>Term: {item.term}</p>
                                     <p>Trainsaction ETH: {item.transactionETH}</p>
-                                    <QRCode
-                                        value={
-                                            "https://goerli.etherscan.io/tx/" + item.transactionETH
-                                        }
-                                        size="100"
-                                        // width="20em"
-                                        viewBox="0 0 100 100"
-                                        media="(max-width: 20em)"
-                                        style={{
-                                            display: "block",
-                                            margin: "0 auto",
-                                            width: "20em",
-                                        }}
-                                    />
+                                    <ImageZoom>
+                                        <QRCode
+                                            value={
+                                                "https://goerli.etherscan.io/tx/" + item.transactionETH
+                                            }
+                                            size="100"
+                                            // width="20em"
+                                            viewBox="0 0 100 100"
+                                            media="(max-width: 20em)"
+                                            style={{
+                                                display: "block",
+                                                margin: "0 auto",
+                                                width: "20em",
+                                            }}
+                                        /></ImageZoom>
                                 </div>
                             </SimpleCard>
                         </Stack>

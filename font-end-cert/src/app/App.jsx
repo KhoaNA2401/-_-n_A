@@ -8,8 +8,7 @@ import routes from './routes';
 import { ethers } from 'ethers';
 import abi from './utils/Certificates.json';
 import { useState, useEffect } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
-import { async } from '@firebase/util';
+import { useNavigate } from 'react-router-dom';
 const App = () => {
   const content = useRoutes(routes);
   const [currentAccount, setCurrentAccount] = useState('');
@@ -35,25 +34,11 @@ const App = () => {
       window.confirm('You are not a manager', navigate('/session/signin'));
     }
   };
-  const connectToBlockchain = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(contractAddress, contractABI, signer);
-    return contract;
-  };
-  const controller = async () => {
-    const manager = await checkManager(currentAccount);
-    if (manager) {
-      console.log('You are a manager!');
-    }
-    else {
-      window.confirm("You are not a manager!",
-        navigate('/session/signin'));
-    }
-  }
+ 
   //make alert with 2 options to confirm or cancel if confirm then redirect to login page
   useEffect(() => {
     checkManager();
+    console.log(currentAccount)
   }, []);
 
 
