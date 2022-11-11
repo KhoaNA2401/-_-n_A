@@ -17,7 +17,7 @@ import { collection, getDocs, query, updateDoc, doc, where, onSnapshot } from "f
 import QRCode from "react-qr-code";
 import { ethers } from "ethers";
 import abi from "../../../utils/Certificates.json";
-
+import ImageZoom from 'react-medium-image-zoom';
 const StyledTable = styled(Table)(({ theme }) => ({
   whiteSpace: "pre",
   "& thead": {
@@ -171,10 +171,15 @@ const SimpleTable = () => {
 
                 <TableCell align="center">{subscriber.managerAddress}</TableCell>
                 <TableCell align="right">
-                  <QRCode value={'https://goerli.etherscan.io/tx/' + subscriber.transactionETH}
-                    viewBox
-                    size="50"
-                  />
+                  <ImageZoom>
+                    <QRCode value={'https://goerli.etherscan.io/tx/' + subscriber.transactionETH}
+                       viewBox="0 0 100 100"
+                       media="(max-width: 20em)"
+                       style={{ display: 'block', margin: 'left 20, right 0', width: '20em' }}
+                      size="100"
+                    />
+                  </ImageZoom>
+
                 </TableCell>
                 {subscriber.status === "Active" ? (
                   <TableCell align="center">
