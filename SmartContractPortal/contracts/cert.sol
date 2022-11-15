@@ -83,4 +83,13 @@ contract certAdd {
             );
             emit certadded(name, studentid, email, course, date, college, term);
     }
+
+    //view return for certificate get details by stu_id
+    function getCertificateByStuId(string memory stu_id) public view returns (cert_details memory) {
+        for (uint256 i = 1; i <= certCount; i++) {
+            if (keccak256(abi.encodePacked(certificates[msg.sender].studentid)) == keccak256(abi.encodePacked(stu_id))) {
+                return certificates[msg.sender];
+            }
+        }
+    }
 }

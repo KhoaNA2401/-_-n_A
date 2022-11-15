@@ -6,7 +6,9 @@ import {
   Grid,
   Icon,
   styled,
+  CircularProgress
 } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
 import { Span } from "app/components/Typography";
 import { useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
@@ -15,14 +17,15 @@ import abi from "../../../utils/Certificates.json";
 import { db } from "../../../utils/firebase-config"
 import { collection, setDoc, doc } from "firebase/firestore";
 import { useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { LoadingButton } from '@mui/lab';
+import React from "react";
 const TextField = styled(TextValidator)(() => ({
   width: "100%",
   marginBottom: "16px",
 }));
 
 const FormAddCert = () => {
-  const contractAddress = "0x0fdfb72cd4ff5e88603e36ac98742ee86249d266";
+  const contractAddress = "0x37513156Fe91B86ab10Df978c83aFD61C4E24a06";
   const contractABI = abi.abi;
   const [name, setName] = useState("");
   const [stu_id, setStu_id] = useState("");
@@ -56,13 +59,21 @@ const FormAddCert = () => {
     return dateFormated;
   }
 
+  const connectWallet = async () => {
+    const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+    setCurrentAccount(accounts[0]);
+  }
+
   const dateAdded = Date.now().toString();
   console.log(dateAdded);
 
+  //set loading when addCertificateETH
+  const [loading, setLoading] = useState(false);
   const addCertificateETH = async () => {
     const contract = await connectToBlockchain();
     const checkAddress = checkManager();
     // console.log(checkAddress);
+    setLoading(true);
     try {
       if (checkAddress) {
         const transaction = await contract.addCertificate(
@@ -87,21 +98,27 @@ const FormAddCert = () => {
           date: dateFormat(date),
           college: college,
           term: term,
+          deloyAddress: currentAccount,
           transactionETH: transaction.hash,
         });
+        setLoading(false);
+        alert("Add Certificate Success");
       }
+
     } catch (error) {
       console.log(error);
-      alert('You dont have permission!!!');
+      alert('Transaction is Denied!!!');
+      setLoading(false);
     }
   }
   useEffect(() => {
-
+    connectWallet();
+    console.log(currentAccount)
   })
 
   return (
-    <div>
-      <ValidatorForm onSubmit={addCertificateETH} onError={() => null}>
+    <div >
+      <ValidatorForm onSubmit={addCertificateETH} onError={() => null} loading={loading}>
         <Grid container spacing={6}>
           <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
             <TextField
@@ -181,15 +198,17 @@ const FormAddCert = () => {
               name="transactionETH"
               value={transactionETH}
               disabled={true}
+              loading={loading}
             />
           </Grid>
         </Grid>
 
-        <Button color="primary" variant="contained" type="submit">
+        <LoadingButton color="primary" variant="contained" type="submit" loading={loading}>
           <Icon>send</Icon>
           <Span sx={{ pl: 1, textTransform: "capitalize" }}>Submit</Span>
-        </Button>
+        </LoadingButton>
       </ValidatorForm>
+
     </div>
   );
 };

@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 const App = () => {
   const content = useRoutes(routes);
   const [currentAccount, setCurrentAccount] = useState('');
-  const contractAddress = '0x0fdfb72cd4ff5e88603e36ac98742ee86249d266';
+  const contractAddress = '0x37513156Fe91B86ab10Df978c83aFD61C4E24a06';
   const contractABI = abi.abi;
   const navigate = useNavigate();
   

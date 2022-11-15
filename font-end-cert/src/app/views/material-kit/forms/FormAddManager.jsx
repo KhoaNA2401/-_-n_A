@@ -10,16 +10,17 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { ethers } from "ethers";
 import abi from "../../../utils/Certificates.json";
 import { db } from "../../../utils/firebase-config"
-import {  setDoc, doc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 import { useEffect } from 'react';
 import { Autocomplete } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 const TextField = styled(TextValidator)(() => ({
   width: "100%",
   marginBottom: "16px",
 }));
 
 const FormAddManager = () => {
-  const contractAddress = "0x0fdfb72cd4ff5e88603e36ac98742ee86249d266";
+  const contractAddress = "0x37513156Fe91B86ab10Df978c83aFD61C4E24a06";
   const contractABI = abi.abi;
   const [managerAddress, setManagerAddress] = useState("");
   const [managerName, setManagerName] = useState("");
@@ -42,9 +43,11 @@ const FormAddManager = () => {
     console.log(manager);
     return manager;
   };
+  const [loading, setLoading] = useState(false);
 
   const addManager = async () => {
     try {
+      setLoading(true);
       const contract = await connectToBlockchain();
       const transaction = await contract.addManager(managerAddress, managerName);
       await transaction.wait();
@@ -61,11 +64,14 @@ const FormAddManager = () => {
         status: status,
         // transactionETH: transaction.hash,
       });
+      setLoading(false);
+      alert("Add Manager Success");
     } catch (error) {
       console.log(error);
-      alert('You dont have permission!!!');
+      alert('Transaction is Denied!!!');
+      setLoading(false);
     }
-      
+
   }
 
   useEffect(() => {
@@ -145,10 +151,10 @@ const FormAddManager = () => {
           </Grid>
         </Grid>
 
-        <Button color="primary" variant="contained" type="submit">
+        <LoadingButton color="primary" variant="contained" type="submit" loading={loading}>
           <Icon>send</Icon>
           <Span sx={{ pl: 1, textTransform: "capitalize" }}>Submit</Span>
-        </Button>
+        </LoadingButton>
       </ValidatorForm>
     </div>
   );

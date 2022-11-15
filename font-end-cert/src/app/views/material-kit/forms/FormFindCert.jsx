@@ -29,7 +29,7 @@ import {
     useTheme,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import { db } from "../../../utils/firebase-config";
+import { db } from "../../../utils/firebase-config"
 import {
     collection,
     getDocs,
@@ -148,6 +148,7 @@ export default function FormFindCert() {
         return unsubscribe;
     };
     useEffect(() => {
+        console.log(inputID);
         const q = query(
             collection(db, "certificates"),
             where("stu_id", "==", `${inputID}`)
@@ -205,7 +206,7 @@ export default function FormFindCert() {
                                     <TableCell align="right">
                                         <ImageZoom media="(max-width: 20em)" >
                                             <QRCode value={'https://goerli.etherscan.io/tx/' + subscriber.transactionETH}
-                                                size="100"
+                                                size={100}
                                                 // width="20em"
                                                 viewBox="0 0 100 100"
                                                 media="(max-width: 20em)"
@@ -252,6 +253,7 @@ export default function FormFindCert() {
                                     <p>From Day: {item.date}</p>
                                     <p>College: {item.college}</p>
                                     <p>Term: {item.term}</p>
+                                    <p>Trusted Account: {item.deloyAddress}</p>
                                     <p>Trainsaction ETH: {item.transactionETH}</p>
                                     <ImageZoom>
                                         <QRCode
